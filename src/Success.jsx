@@ -10,4 +10,4 @@ return (
 <Button variant="contained"  onClick={()=>window.location.reload()} >Back</Button>
 </div>
 );
-};
+}; 
