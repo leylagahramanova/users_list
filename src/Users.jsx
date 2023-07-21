@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -11,10 +11,12 @@ import Skeleton from '@mui/material/Skeleton';
 import plus from './plus.png';
 import minus from './minus.png';
 import { customersData } from './data'; // Assuming customersData is imported
-
+import Input from "./Input"
 export const Users = ({ onClickInvite, invites, isLoading, onClickSendInvites }) => {
   const [searchValue, setSearchValue] = React.useState('');
 
+  const [users] = React.useState([]);
+  const [messages, setMessages]=useState([]);
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
   };
@@ -22,7 +24,16 @@ export const Users = ({ onClickInvite, invites, isLoading, onClickSendInvites })
   const filteredCustomers = customersData.filter((customer) =>
     customer.CustomerName.toLowerCase().includes(searchValue.toLowerCase())
   );
-
+  const onSendMessage = (message) => {
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        text: message,
+        user: users,
+      },
+    ]);
+    this.setState({messages: messages})
+  }
 
   return (
     <div className="container">
@@ -97,6 +108,9 @@ export const Users = ({ onClickInvite, invites, isLoading, onClickSendInvites })
           </div>
         </List>
       )}
+             <Input
+        onSendMessage={onSendMessage}
+      />
       {invites.length>0 && (<Button variant="contained"  onClick={onClickSendInvites}>Send event</Button>)}
    
     </div>
